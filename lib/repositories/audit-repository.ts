@@ -15,6 +15,13 @@ export interface CreateAuditLogData {
   processingTime?: number
   tokensUsed?: number
   cost?: number
+
+  // Enhanced tracking fields
+  attemptId?: string // Inngest retry attempt ID for idempotency
+  inngestEventId?: string // Inngest event ID for tracing
+  agreementLevel?: number // Multi-provider consensus agreement level (0-1)
+  providerWeights?: Prisma.InputJsonValue // Provider weights used in weighted voting
+  sensitive?: boolean // Flag for PII/sensitive content
 }
 
 export class AuditRepository {
@@ -112,6 +119,23 @@ export class AuditRepository {
         {}
       ),
     }
+  }
+
+  /**
+   * Get pipeline stages for a document (for UI status display)
+   */
+  async getStagesByDocumentId(documentId: string): Promise<{
+    stage: PipelineStage
+    createdAt: Date
+  }[]> {
+    return prisma.auditLog.findMany({
+      where: { documentId },
+      select: {
+        stage: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: 'asc' },
+    })
   }
 
   /**

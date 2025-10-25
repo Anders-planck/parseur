@@ -1,0 +1,314 @@
+{
+  "common": {
+    "appName": "Analyseur de Documents Intelligent",
+    "welcome": "Bienvenue",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "actions": "Actions",
+    "retry": "Réessayer",
+    "noResults": "Aucun résultat trouvé",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "documents": "Documents",
+    "upload": "Télécharger",
+    "settings": "Paramètres",
+    "profile": "Profil",
+    "logout": "Déconnexion",
+    "theme": "Thème",
+    "language": "Langue"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "upload": {
+    "title": "Télécharger un Document",
+    "description": "Téléchargez un fichier PDF, JPEG, PNG ou WebP (max 10Mo) pour traitement",
+    "dragAndDrop": "Glissez et déposez le fichier ici",
+    "or": "ou",
+    "clickToBrowse": "cliquez pour parcourir",
+    "dropHere": "Déposez le fichier ici",
+    "dropToReplace": "Déposer pour remplacer",
+    "clickToReplace": "Cliquez ou glissez pour remplacer",
+    "supportedFormats": "Formats supportés : PDF, JPEG, PNG, WebP (max 10Mo)",
+    "uploading": "Téléchargement de {filename}...",
+    "uploadComplete": "Téléchargement terminé !",
+    "processing": "Traitement de {filename}...",
+    "uploadFailed": "Échec du téléchargement",
+    "uploadButton": "Télécharger le Document",
+    "fileTooLarge": "La taille du fichier doit être inférieure à 10Mo",
+    "invalidFileType": "Le fichier doit être PDF, JPEG, PNG ou WebP",
+    "uploadSuccess": "Téléchargement réussi",
+    "uploadSuccessDescription": "{filename} est maintenant en cours de traitement",
+    "successTitle": "Téléchargement Réussi !",
+    "successMessage": "{filename} est en cours de traitement. Cela prend généralement 30 à 60 secondes.",
+    "viewStatus": "Voir le Statut",
+    "uploadAnother": "Télécharger un Autre",
+    "redirecting": "Redirection dans {seconds}s...",
+    "cancelRedirect": "Rester ici"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Gérez et traitez vos documents",
+    "statistics": {
+      "totalDocuments": "Documents Totaux",
+      "totalDescription": "Tous les documents téléchargés",
+      "completed": "Terminés",
+      "completedDescription": "Traités avec succès",
+      "processing": "En cours",
+      "processingDescription": "En cours de traitement",
+      "needsReview": "À réviser",
+      "needsReviewDescription": "Nécessite une attention",
+      "failed": "Échoués",
+      "failedDescription": "Traitement échoué"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "myDocuments": "Mes Documents",
+    "manageDocuments": "Consultez et gérez tous vos documents",
+    "noDocuments": "Aucun document pour le moment",
+    "noDocumentsDescription": "Téléchargez votre premier document pour commencer",
+    "noResultsFound": "Aucun document trouvé",
+    "noResultsDescription": "Essayez d'ajuster vos filtres ou votre requête de recherche",
+    "uploadFirst": "Télécharger un Document",
+    "search": "Rechercher des documents...",
+    "viewDetails": "Voir les Détails",
+    "deleteDocument": "Supprimer",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce document ?",
+    "status": {
+      "processing": "En traitement",
+      "completed": "Terminé",
+      "failed": "Échoué",
+      "needsReview": "Nécessite une révision"
+    },
+    "filter": {
+      "all": "Tous les Documents",
+      "completed": "Terminés",
+      "processing": "En traitement",
+      "failed": "Échoués",
+      "needsReview": "Nécessitent une révision"
+    },
+    "sort": {
+      "newest": "Plus récents",
+      "oldest": "Plus anciens",
+      "nameAZ": "Nom (A-Z)",
+      "nameZA": "Nom (Z-A)"
+    }
+  },
+  "status": {
+    "title": "État du Document",
+    "currentStatus": "État Actuel",
+    "progress": "Progression",
+    "confidence": "Fiabilité",
+    "createdAt": "Créé le",
+    "completedAt": "Terminé le",
+    "processingTime": "Temps de traitement",
+    "estimatedTimeRemaining": "Temps restant estimé",
+    "aboutSeconds": "Environ {seconds} secondes",
+    "lessThanMinute": "Moins d'une minute",
+    "documentType": "Type de Document",
+    "needsReview": "Nécessite une Révision",
+    "stages": {
+      "upload": {
+        "title": "Réception du Document",
+        "description": "Téléchargement sécurisé de votre fichier"
+      },
+      "classification": {
+        "title": "Identification du Type",
+        "description": "Détection du type de document (facture, reçu, etc.)"
+      },
+      "extraction": {
+        "title": "Lecture des Données",
+        "description": "Extraction des dates, montants et autres champs"
+      },
+      "validation": {
+        "title": "Vérification de l'Exactitude",
+        "description": "Vérification des informations extraites"
+      },
+      "correction": {
+        "title": "Corrections Intelligentes",
+        "description": "Correction automatique des erreurs courantes"
+      },
+      "finalize": {
+        "title": "Finalisation",
+        "description": "Préparation de vos résultats"
+      }
+    },
+    "stageStatus": {
+      "pending": "En attente",
+      "running": "En cours",
+      "completed": "Terminé",
+      "failed": "Échoué"
+    }
+  },
+  "results": {
+    "title": "Résultats Analysés",
+    "rawData": "Données Brutes",
+    "structuredData": "Données Structurées",
+    "download": "Télécharger",
+    "downloadJSON": "Télécharger JSON",
+    "downloadPDF": "Télécharger PDF",
+    "viewOriginal": "Voir l'Original",
+    "confidence": "Score de Fiabilité",
+    "documentType": "Type de Document",
+    "extractedFields": "Champs Extraits"
+  },
+  "review": {
+    "title": "Révision Requise",
+    "description": "Vérifiez et corrigez les données extraites avant de les approuver. Certains champs ont une faible fiabilité.",
+    "approve": "Approuver",
+    "reprocess": "Retraiter",
+    "reject": "Rejeter",
+    "approving": "Approbation...",
+    "reprocessing": "Retraitement...",
+    "rejecting": "Rejet...",
+    "approved": "Document Approuvé",
+    "approvedDescription": "Le document a été approuvé et marqué comme terminé",
+    "reprocessed": "Retraitement Lancé",
+    "reprocessedDescription": "Le document sera retraité par le pipeline",
+    "rejected": "Document Rejeté",
+    "rejectedDescription": "Le document a été rejeté et marqué comme échoué",
+    "saveChanges": "Enregistrer les Modifications",
+    "discardChanges": "Annuler les Modifications",
+    "saving": "Enregistrement...",
+    "changesSaved": "Modifications Enregistrées",
+    "changesSavedDescription": "Les modifications ont été enregistrées avec succès",
+    "unsavedChanges": "Vous avez des modifications non enregistrées. Cliquez sur \"Enregistrer les Modifications\" pour confirmer.",
+    "draftSaved": "Brouillon enregistré à {time}",
+    "savingDraft": "Enregistrement du brouillon...",
+    "draftRestored": "Brouillon restauré de {time}",
+    "lowConfidenceWarning": "Attention",
+    "lowConfidenceField": "champ a",
+    "lowConfidenceFields": "champs ont",
+    "lowConfidenceMessage": "une faible fiabilité. Vérifiez les valeurs mises en évidence avant d'approuver.",
+    "confidence": {
+      "high": "Haute fiabilité",
+      "medium": "Faible fiabilité",
+      "low": "Très faible fiabilité",
+      "verifyAccuracy": "Vérifier l'exactitude de la valeur",
+      "highAction": "La valeur semble correcte - vérification rapide recommandée",
+      "mediumAction": "Veuillez vérifier cette valeur attentivement",
+      "lowAction": "Revérifiez cette valeur - correction potentiellement nécessaire"
+    },
+    "validation": {
+      "emptyField": "Le champ ne peut pas être vide"
+    }
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "name": "Nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "loginButton": "Se connecter",
+    "registerButton": "S'inscrire",
+    "loggingIn": "Connexion en cours...",
+    "registering": "Création du compte...",
+    "registrationSuccess": "Inscription réussie",
+    "accountCreated": "Compte créé avec succès",
+    "validation": {
+      "emailRequired": "L'email est requis",
+      "emailInvalid": "Email invalide",
+      "passwordRequired": "Le mot de passe est requis",
+      "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères",
+      "passwordUppercase": "Le mot de passe doit contenir au moins une lettre majuscule",
+      "passwordLowercase": "Le mot de passe doit contenir au moins une lettre minuscule",
+      "passwordNumber": "Le mot de passe doit contenir au moins un chiffre",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+      "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "nameRequired": "Le nom est requis",
+      "nameMinLength": "Le nom doit contenir au moins 2 caractères",
+      "nameTooShort": "Le nom doit contenir au moins 2 caractères"
+    },
+    "passwordStrength": {
+      "weak": "Faible",
+      "medium": "Moyen",
+      "strong": "Fort",
+      "minLength": "Au moins 8 caractères",
+      "uppercase": "Une lettre majuscule",
+      "lowercase": "Une lettre minuscule",
+      "number": "Un chiffre",
+      "requirements": {
+        "minLength": "Au moins 8 caractères",
+        "uppercase": "Une lettre majuscule",
+        "lowercase": "Une lettre minuscule",
+        "number": "Un chiffre",
+        "specialChar": "Un caractère spécial"
+      }
+    }
+  },
+  "errors": {
+    "unauthorized": "Non autorisé",
+    "notFound": "Non trouvé",
+    "serverError": "Erreur du Serveur",
+    "validationError": "Erreur de Validation",
+    "networkError": "Erreur de Réseau",
+    "tryAgain": "Veuillez réessayer",
+    "contactSupport": "Contacter le Support",
+    "pageNotFound": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "goHome": "Retour à l'accueil",
+    "backToDashboard": "Retour au tableau de bord",
+    "somethingWentWrong": "Une erreur s'est produite. Veuillez réessayer ou contacter le support si le problème persiste.",
+    "criticalError": "Erreur critique",
+    "criticalErrorDescription": "Une erreur critique s'est produite. Veuillez réessayer ou contacter le support si le problème persiste."
+  },
+  "settings": {
+    "subtitle": "Gérez les paramètres et préférences de votre compte",
+    "appearance": {
+      "title": "Apparence",
+      "description": "Personnalisez l'apparence de l'application",
+      "theme": "Thème",
+      "themeDescription": "Sélectionnez votre thème préféré"
+    },
+    "language": {
+      "title": "Langue",
+      "description": "Choisissez votre langue préférée",
+      "select": "Langue",
+      "selectDescription": "Changer la langue de l'application"
+    },
+    "profile": {
+      "title": "Profil",
+      "description": "Gérez vos informations de profil",
+      "name": "Nom",
+      "namePlaceholder": "Entrez votre nom",
+      "email": "Email",
+      "emailPlaceholder": "Entrez votre email",
+      "currentPassword": "Mot de Passe Actuel",
+      "currentPasswordPlaceholder": "Entrez le mot de passe actuel",
+      "newPassword": "Nouveau Mot de Passe",
+      "newPasswordPlaceholder": "Entrez le nouveau mot de passe",
+      "confirmPassword": "Confirmer le Mot de Passe",
+      "confirmPasswordPlaceholder": "Confirmez le nouveau mot de passe",
+      "updateProfile": "Mettre à Jour le Profil",
+      "changePassword": "Changer le Mot de Passe",
+      "updating": "Mise à jour...",
+      "changing": "Modification...",
+      "profileUpdated": "Profil mis à jour avec succès",
+      "passwordChanged": "Mot de passe modifié avec succès",
+      "updateError": "Échec de la mise à jour du profil",
+      "passwordError": "Échec de la modification du mot de passe"
+    }
+  }
+}

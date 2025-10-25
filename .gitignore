@@ -44,3 +44,8 @@ next-env.d.ts
 
 .claude
 tasks
+*.md
+!Readme.md
+test_documents
+.playwright-mcp
+docs

@@ -1,32 +1,71 @@
-import pino from 'pino'
+import pino, { Logger, LoggerOptions } from 'pino'
 
 /**
  * Structured logging with pino
  * Provides consistent logging across the application
+ *
+ * This implementation avoids worker thread issues in Next.js/Turbopack by:
+ * - Using try-catch around transport creation
+ * - Providing a safe fallback logger
+ * - Only using pino-pretty in development (not in production/SSR)
  */
 
-const isDevelopment = process.env.NODE_ENV === 'development'
+const isDev = process.env.NODE_ENV === 'development'
 
-export const logger = pino({
-  level: process.env.LOG_LEVEL || (isDevelopment ? 'debug' : 'info'),
-  transport: isDevelopment
-    ? {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'SYS:standard',
-          ignore: 'pid,hostname',
-          singleLine: false,
-        },
-      }
-    : undefined,
-  formatters: {
-    level: (label) => {
-      return { level: label }
+/**
+ * Safe fallback logger (no fancy transports)
+ * Used when pino-pretty transport fails or in production
+ */
+function createFallbackLogger(): Logger {
+  return pino({
+    level: process.env.LOG_LEVEL || (isDev ? 'debug' : 'info'),
+    formatters: {
+      level: (label) => ({ level: label }),
     },
-  },
-  timestamp: pino.stdTimeFunctions.isoTime,
-})
+    timestamp: pino.stdTimeFunctions.isoTime,
+  })
+}
+
+/**
+ * Create logger with optional pretty transport
+ * Gracefully falls back if transport creation fails
+ */
+export function makeLogger(): Logger {
+  const baseOpts: LoggerOptions = {
+    level: process.env.LOG_LEVEL || (isDev ? 'debug' : 'info'),
+    formatters: {
+      level: (label) => ({ level: label }),
+    },
+    timestamp: pino.stdTimeFunctions.isoTime,
+  }
+
+  // Only attach pretty transport in dev, not in production SSR
+  if (isDev) {
+    try {
+      return pino({
+        ...baseOpts,
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'SYS:standard',
+            ignore: 'pid,hostname',
+            singleLine: false,
+          },
+        },
+      })
+    } catch (err: unknown) {
+      console.error('Failed to use pino-pretty transport, falling back to base logger:', err)
+      return createFallbackLogger()
+    }
+  } else {
+    // Production mode: no fancy transport, use core pino (plain JSON)
+    return pino(baseOpts)
+  }
+}
+
+// Export singleton instance
+export const logger = makeLogger()
 
 /**
  * Log levels:

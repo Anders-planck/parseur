@@ -1,7 +1,26 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+import createNextIntlPlugin from 'next-intl/plugin'
+
+// Configure next-intl plugin
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts')
 
 const nextConfig: NextConfig = {
   /* config options here */
-};
 
-export default nextConfig;
+  // Externalize pino packages to avoid worker thread bundling issues
+  // This prevents "Cannot find module '/ROOT/node_modules/thread-stream/lib/worker.js'" errors
+  // Note: In Next.js 16+, this is now `serverExternalPackages` instead of experimental
+  serverExternalPackages: ['pino', 'pino-pretty', 'thread-stream'],
+
+  // Additional Webpack config to ensure pino is not bundled in server chunks
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Tell Webpack not to bundle these modules into the server chunk
+      config.externals = config.externals || []
+      config.externals.push('pino', 'pino-pretty', 'thread-stream')
+    }
+    return config
+  },
+}
+
+export default withNextIntl(nextConfig)

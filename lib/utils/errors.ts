@@ -3,6 +3,8 @@
  * Provides structured error handling with HTTP status codes
  */
 
+import { logger } from './logger'
+
 export class AppError extends Error {
   constructor(
     message: string,
@@ -118,7 +120,7 @@ export function handleApiError(error: unknown): Response {
   }
 
   // Unknown errors - log and return generic message
-  console.error('Unhandled error:', error)
+  logger.error({ error }, 'Unhandled error')
   return Response.json(
     {
       error: {

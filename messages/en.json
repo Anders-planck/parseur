@@ -1,0 +1,311 @@
+{
+  "common": {
+    "appName": "Smart Document Parser",
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "actions": "Actions",
+    "retry": "Retry",
+    "noResults": "No results found",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Manage and process your documents",
+    "statistics": {
+      "totalDocuments": "Total Documents",
+      "totalDescription": "All uploaded documents",
+      "completed": "Completed",
+      "completedDescription": "Successfully processed",
+      "processing": "Processing",
+      "processingDescription": "Currently processing",
+      "needsReview": "Needs Review",
+      "needsReviewDescription": "Requires attention",
+      "failed": "Failed",
+      "failedDescription": "Processing failed"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "documents": "Documents",
+    "upload": "Upload",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "upload": {
+    "title": "Upload Document",
+    "description": "Upload a PDF, JPEG, PNG, or WebP file (max 10MB) for processing",
+    "dragAndDrop": "Drag and drop file here",
+    "or": "or",
+    "clickToBrowse": "click to browse",
+    "dropHere": "Drop file here",
+    "dropToReplace": "Drop to replace",
+    "clickToReplace": "Click or drag to replace",
+    "supportedFormats": "Supported formats: PDF, JPEG, PNG, WebP (max 10MB)",
+    "uploading": "Uploading {filename}...",
+    "uploadComplete": "Upload complete!",
+    "processing": "Processing {filename}...",
+    "uploadFailed": "Upload failed",
+    "uploadButton": "Upload Document",
+    "fileTooLarge": "File size must be less than 10MB",
+    "invalidFileType": "File must be PDF, JPEG, PNG, or WebP",
+    "uploadSuccess": "Upload successful",
+    "uploadSuccessDescription": "{filename} is now being processed",
+    "successTitle": "Upload Successful!",
+    "successMessage": "{filename} is being processed. This usually takes 30-60 seconds.",
+    "viewStatus": "View Status",
+    "uploadAnother": "Upload Another",
+    "redirecting": "Redirecting in {seconds}s...",
+    "cancelRedirect": "Stay here"
+  },
+  "documents": {
+    "title": "Documents",
+    "myDocuments": "My Documents",
+    "manageDocuments": "View and manage all your documents",
+    "noDocuments": "No documents yet",
+    "noDocumentsDescription": "Upload your first document to get started",
+    "noResultsFound": "No documents found",
+    "noResultsDescription": "Try adjusting your filters or search query",
+    "uploadFirst": "Upload Document",
+    "search": "Search documents...",
+    "viewDetails": "View Details",
+    "deleteDocument": "Delete",
+    "confirmDelete": "Are you sure you want to delete this document?",
+    "status": {
+      "processing": "Processing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "needsReview": "Needs Review"
+    },
+    "filter": {
+      "all": "All Documents",
+      "completed": "Completed",
+      "processing": "Processing",
+      "failed": "Failed",
+      "needsReview": "Needs Review"
+    },
+    "sort": {
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "nameAZ": "Name (A-Z)",
+      "nameZA": "Name (Z-A)"
+    }
+  },
+  "status": {
+    "title": "Document Status",
+    "currentStatus": "Current Status",
+    "progress": "Progress",
+    "confidence": "Confidence",
+    "createdAt": "Created At",
+    "completedAt": "Completed At",
+    "processingTime": "Processing Time",
+    "estimatedTimeRemaining": "Estimated time remaining",
+    "aboutSeconds": "About {seconds} seconds",
+    "lessThanMinute": "Less than a minute",
+    "documentType": "Document Type",
+    "needsReview": "Needs Review",
+    "stages": {
+      "upload": {
+        "title": "Receiving Document",
+        "description": "Securely uploading your file"
+      },
+      "classification": {
+        "title": "Identifying Type",
+        "description": "Detecting if this is an invoice, receipt, etc."
+      },
+      "extraction": {
+        "title": "Reading Data",
+        "description": "Extracting dates, amounts, and other fields"
+      },
+      "validation": {
+        "title": "Checking Accuracy",
+        "description": "Verifying the extracted information"
+      },
+      "correction": {
+        "title": "Smart Corrections",
+        "description": "Auto-fixing common issues"
+      },
+      "finalize": {
+        "title": "Finishing Up",
+        "description": "Preparing your results"
+      }
+    },
+    "stageStatus": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Completed",
+      "failed": "Failed"
+    }
+  },
+  "results": {
+    "title": "Parsed Results",
+    "rawData": "Raw Data",
+    "structuredData": "Structured Data",
+    "download": "Download",
+    "downloadJSON": "Download JSON",
+    "downloadPDF": "Download PDF",
+    "viewOriginal": "View Original",
+    "confidence": "Confidence Score",
+    "documentType": "Document Type",
+    "extractedFields": "Extracted Fields"
+  },
+  "review": {
+    "title": "Review Required",
+    "description": "Verify and correct the extracted data before approving. Some fields have low confidence.",
+    "approve": "Approve",
+    "reprocess": "Reprocess",
+    "reject": "Reject",
+    "approving": "Approving...",
+    "reprocessing": "Reprocessing...",
+    "rejecting": "Rejecting...",
+    "approved": "Document Approved",
+    "approvedDescription": "The document has been approved and marked as completed",
+    "reprocessed": "Reprocessing Started",
+    "reprocessedDescription": "The document will be reprocessed by the pipeline",
+    "rejected": "Document Rejected",
+    "rejectedDescription": "The document has been rejected and marked as failed",
+    "saveChanges": "Save Changes",
+    "discardChanges": "Discard Changes",
+    "saving": "Saving...",
+    "changesSaved": "Changes Saved",
+    "changesSavedDescription": "Your changes have been saved successfully",
+    "unsavedChanges": "You have unsaved changes. Click \"Save Changes\" to confirm.",
+    "draftSaved": "Draft saved at {time}",
+    "savingDraft": "Saving draft...",
+    "draftRestored": "Draft restored from {time}",
+    "lowConfidenceWarning": "Warning",
+    "lowConfidenceField": "field has",
+    "lowConfidenceFields": "fields have",
+    "lowConfidenceMessage": "low confidence. Verify the highlighted values before approving.",
+    "confidence": {
+      "high": "High confidence",
+      "medium": "Low confidence",
+      "low": "Very low confidence",
+      "verifyAccuracy": "Verify value accuracy",
+      "highAction": "Value looks good - quick review recommended",
+      "mediumAction": "Please verify this value carefully",
+      "lowAction": "Double-check this value - may need correction"
+    },
+    "validation": {
+      "emptyField": "Field cannot be empty"
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "loginButton": "Sign In",
+    "registerButton": "Sign Up",
+    "loggingIn": "Signing in...",
+    "registering": "Creating account...",
+    "loginSuccess": "Login successful",
+    "loginFailed": "Login failed",
+    "registrationSuccess": "Welcome!",
+    "registrationFailed": "Registration failed",
+    "invalidCredentials": "Invalid email or password",
+    "redirecting": "Redirecting to dashboard...",
+    "accountCreated": "Your account has been created successfully",
+    "validation": {
+      "emailInvalid": "Invalid email address",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordUppercase": "Password must contain at least one uppercase letter",
+      "passwordLowercase": "Password must contain at least one lowercase letter",
+      "passwordNumber": "Password must contain at least one number",
+      "passwordMismatch": "Passwords do not match",
+      "nameMinLength": "Name must be at least 2 characters",
+      "nameRequired": "Name is required"
+    },
+    "passwordStrength": {
+      "label": "Password strength:",
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong",
+      "requirements": "Password requirements:",
+      "minLength": "At least 8 characters",
+      "uppercase": "One uppercase letter",
+      "lowercase": "One lowercase letter",
+      "number": "One number"
+    }
+  },
+  "errors": {
+    "unauthorized": "Unauthorized",
+    "notFound": "Not Found",
+    "serverError": "Server Error",
+    "validationError": "Validation Error",
+    "networkError": "Network Error",
+    "tryAgain": "Try Again",
+    "contactSupport": "Contact Support",
+    "pageNotFound": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go to Home",
+    "backToDashboard": "Back to Dashboard",
+    "somethingWentWrong": "Something went wrong. Please try again or contact support if the problem persists.",
+    "criticalError": "Critical Error",
+    "criticalErrorDescription": "A critical error occurred. Please try again or contact support if the problem persists."
+  },
+  "settings": {
+    "subtitle": "Manage your account settings and preferences",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize how the application looks and feels",
+      "theme": "Theme",
+      "themeDescription": "Select your preferred theme"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose your preferred language",
+      "select": "Language",
+      "selectDescription": "Change the application language"
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "Manage your profile information",
+      "name": "Name",
+      "namePlaceholder": "Enter your name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Enter current password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "updateProfile": "Update Profile",
+      "changePassword": "Change Password",
+      "updating": "Updating...",
+      "changing": "Changing...",
+      "profileUpdated": "Profile updated successfully",
+      "passwordChanged": "Password changed successfully",
+      "updateError": "Failed to update profile",
+      "passwordError": "Failed to change password"
+    }
+  }
+}

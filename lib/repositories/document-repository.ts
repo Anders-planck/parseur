@@ -92,6 +92,7 @@ export class DocumentRepository extends BaseRepository<
 
   /**
    * Find documents by user with pagination
+   * Note: Excludes ARCHIVED documents by default
    */
   async findByUserId(
     userId: string,
@@ -106,12 +107,47 @@ export class DocumentRepository extends BaseRepository<
     return prisma.document.findMany({
       where: {
         userId,
-        ...(status && { status }),
+        // Exclude ARCHIVED documents unless explicitly requested
+        status: status || { not: 'ARCHIVED' },
       },
       take: limit,
       skip: cursor ? 1 : 0,
       cursor: cursor ? { id: cursor } : undefined,
       orderBy: { createdAt: 'desc' },
+    })
+  }
+
+  /**
+   * Find document by ID with processing jobs
+   */
+  async findByIdWithJobs(id: string) {
+    return prisma.document.findUnique({
+      where: { id },
+      include: {
+        processingJobs: {
+          orderBy: { startedAt: 'desc' },
+          take: 1,
+        },
+      },
+    })
+  }
+
+  /**
+   * Count documents by user ID with optional filters
+   * Note: Excludes ARCHIVED documents by default
+   */
+  async countByUserId(
+    userId: string,
+    options: {
+      status?: DocumentStatus
+    } = {}
+  ): Promise<number> {
+    return prisma.document.count({
+      where: {
+        userId,
+        // Exclude ARCHIVED documents unless explicitly requested
+        status: options.status || { not: 'ARCHIVED' },
+      },
     })
   }
 
@@ -167,6 +203,7 @@ export class DocumentRepository extends BaseRepository<
 
   /**
    * Get document statistics for user
+   * Note: Excludes ARCHIVED documents from all counts
    */
   async getStatsByUserId(userId: string): Promise<{
     total: number
@@ -176,7 +213,8 @@ export class DocumentRepository extends BaseRepository<
     failed: number
   }> {
     const [total, completed, processing, needsReview, failed] = await Promise.all([
-      prisma.document.count({ where: { userId } }),
+      // Exclude ARCHIVED documents from total count
+      prisma.document.count({ where: { userId, status: { not: 'ARCHIVED' } } }),
       prisma.document.count({ where: { userId, status: 'COMPLETED' } }),
       prisma.document.count({ where: { userId, status: 'PROCESSING' } }),
       prisma.document.count({ where: { userId, status: 'NEEDS_REVIEW' } }),
@@ -255,6 +293,14 @@ export class DocumentRepository extends BaseRepository<
       rawResponse: string
       extractedData?: Prisma.InputJsonValue
       confidence?: number
+      processingTime?: number
+      tokensUsed?: number
+      cost?: number
+      attemptId?: string
+      inngestEventId?: string
+      agreementLevel?: number
+      providerWeights?: Prisma.InputJsonValue
+      sensitive?: boolean
     }
   ): Promise<Document> {
     return prisma.$transaction(async (tx) => {
@@ -281,10 +327,43 @@ export class DocumentRepository extends BaseRepository<
           rawResponse: auditData.rawResponse,
           extractedData: auditData.extractedData,
           confidence: auditData.confidence,
+          processingTime: auditData.processingTime,
+          tokensUsed: auditData.tokensUsed,
+          cost: auditData.cost,
+          attemptId: auditData.attemptId,
+          inngestEventId: auditData.inngestEventId,
+          agreementLevel: auditData.agreementLevel,
+          providerWeights: auditData.providerWeights,
+          sensitive: auditData.sensitive ?? false,
         },
       })
 
       return document
+    })
+  }
+
+  /**
+   * Find documents by status with optional filters
+   */
+  async findByStatus(
+    status: DocumentStatus,
+    options: {
+      documentType?: DocumentType
+      limit?: number
+      cursor?: string
+    } = {}
+  ): Promise<Document[]> {
+    const { documentType, limit = 50, cursor } = options
+
+    return prisma.document.findMany({
+      where: {
+        status,
+        ...(documentType && { documentType }),
+      },
+      take: limit,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id: cursor } : undefined,
+      orderBy: { createdAt: 'asc' },
     })
   }
 }

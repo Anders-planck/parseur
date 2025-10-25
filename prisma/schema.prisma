@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // ============================================
@@ -127,6 +128,7 @@ enum PipelineStage {
   EXTRACTION
   VALIDATION
   CORRECTION
+  REVALIDATION // Re-validation after correction
   FINALIZE
 }
 
@@ -158,27 +160,37 @@ model ProcessingJob {
 }
 
 model AuditLog {
-  id            String        @id @default(cuid())
-  documentId    String
-  stage         PipelineStage
-  llmProvider   String // "openai" | "anthropic"
-  llmModel      String // "gpt-4o" | "claude-3-5-sonnet"
-  promptTemplate String
-  promptUsed    String        @db.Text
-  rawResponse   String        @db.Text
-  extractedData Json?
-  confidence    Float?
-  processingTime Int? // milliseconds
-  tokensUsed    Int?
-  cost          Float?
-  createdAt     DateTime      @default(now())
+  id              String        @id @default(cuid())
+  documentId      String
+  stage           PipelineStage
+  llmProvider     String // "openai" | "anthropic" | "consensus"
+  llmModel        String // "gpt-4o" | "claude-3-5-sonnet" | "weighted-consensus"
+  promptTemplate  String
+  promptUsed      String        @db.Text
+  rawResponse     String        @db.Text
+  extractedData   Json?
+  confidence      Float?
+  processingTime  Int? // milliseconds
+  tokensUsed      Int?
+  cost            Float?
+
+  // Enhanced tracking for production observability
+  attemptId       String? // Inngest retry attempt ID for idempotency
+  inngestEventId  String? // Inngest event ID for tracing
+  agreementLevel  Float? // Multi-provider consensus agreement level (0-1)
+  providerWeights Json? // Provider weights used in weighted voting { "openai": 0.5, "anthropic": 0.5 }
+  sensitive       Boolean @default(false) // Flag for PII/sensitive content requiring redaction
+
+  createdAt       DateTime      @default(now())
 
   // Relations
   document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
 
+  @@unique([documentId, stage, attemptId]) // Prevent duplicate audit logs on retries
   @@index([documentId])
   @@index([stage])
   @@index([createdAt])
+  @@index([inngestEventId])
   @@map("audit_logs")
 }
 

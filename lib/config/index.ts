@@ -22,6 +22,8 @@ interface Config {
     accessKeyId: string
     secretAccessKey: string
     bucket: string
+    endpoint?: string // For MinIO local development
+    forcePathStyle: boolean // Required for MinIO
   }
 
   // OpenAI
@@ -34,6 +36,11 @@ interface Config {
   anthropic: {
     apiKey: string
     model: string
+  }
+
+  // LLM Configuration
+  llm: {
+    defaultProvider: 'openai' | 'anthropic'
   }
 
   // Inngest
@@ -64,6 +71,10 @@ function getEnvVarOptional(key: string, defaultValue: string): string {
   return process.env[key] || defaultValue
 }
 
+function getEnvVarNullable(key: string): string | undefined {
+  return process.env[key]
+}
+
 export const config: Config = {
   database: {
     url: getEnvVar('DATABASE_URL'),
@@ -80,6 +91,8 @@ export const config: Config = {
     accessKeyId: getEnvVar('AWS_ACCESS_KEY_ID'),
     secretAccessKey: getEnvVar('AWS_SECRET_ACCESS_KEY'),
     bucket: getEnvVar('AWS_S3_BUCKET'),
+    endpoint: getEnvVarNullable('AWS_S3_ENDPOINT'), // For MinIO local dev
+    forcePathStyle: getEnvVarOptional('AWS_S3_FORCE_PATH_STYLE', 'false') === 'true', // For MinIO
   },
 
   openai: {
@@ -90,6 +103,10 @@ export const config: Config = {
   anthropic: {
     apiKey: getEnvVar('ANTHROPIC_API_KEY'),
     model: getEnvVarOptional('ANTHROPIC_MODEL', 'claude-3-5-sonnet-20241022'),
+  },
+
+  llm: {
+    defaultProvider: (getEnvVarOptional('LLM_DEFAULT_PROVIDER', 'openai') as 'openai' | 'anthropic'),
   },
 
   inngest: {
