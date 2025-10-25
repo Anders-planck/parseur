@@ -1,10 +1,10 @@
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import { neonConfig } from '@neondatabase/serverless';
-import ws from 'ws';
+//import { PrismaNeon } from '@prisma/adapter-neon';
+//import { neonConfig } from '@neondatabase/serverless';
+// import ws from 'ws';
 
-neonConfig.webSocketConstructor = ws;
+// neonConfig.webSocketConstructor = ws;
 /**
  * PrismaClient singleton for Next.js
  * Prevents multiple instances in development (hot reload)
@@ -18,8 +18,8 @@ const globalForPrisma = globalThis as unknown as {
   * Use Neon adapter in production for serverless compatibility
   * In development, use standard PrismaClient for better performance
 */
-const connectionString = `${process.env.DATABASE_URL}`;
-const adapter = new PrismaNeon({ connectionString });
+// const connectionString = `${process.env.DATABASE_URL}`;
+// const adapter = new PrismaNeon({ connectionString });
 
 export const prisma =
   globalForPrisma.prisma ??
@@ -28,7 +28,7 @@ export const prisma =
       ? ['query', 'error', 'warn']
       : ['error'],
     errorFormat: 'pretty',
-    ...(process.env.NODE_ENV === 'production' ? { adapter } : {}),
+   // ...(process.env.NODE_ENV === 'production' ? { adapter } : {}),
   })
 
 if (process.env.NODE_ENV !== 'production') {

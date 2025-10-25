@@ -14,6 +14,8 @@
 import { useTranslations } from 'next-intl'
 import { Link, usePathname } from '@/i18n/navigation'
 import { useSession } from 'next-auth/react'
+import { signOut } from "next-auth/react"
+
 import {
   FileText,
   Home,
@@ -153,8 +155,8 @@ export function AppSidebar() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer text-destructive">
-                  {t('logout')}
+                <DropdownMenuItem className="cursor-pointer text-destructive" onClick={() => signOut()}>
+                    {t('logout')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

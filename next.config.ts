@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 
+// @ts-expect-error - Package doesn't have TypeScript types but works at runtime
+import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
+
 // Configure next-intl plugin
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts')
 
@@ -18,6 +21,7 @@ const nextConfig: NextConfig = {
       // Tell Webpack not to bundle these modules into the server chunk
       config.externals = config.externals || []
       config.externals.push('pino', 'pino-pretty', 'thread-stream')
+      config.plugins = [...config.plugins, new PrismaPlugin()]
     }
     return config
   },

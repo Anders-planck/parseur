@@ -1,0 +1,225 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./prisma/generated/client"
+  binaryTargets = [ "native","rhel-openssl-3.0.x", "debian-openssl-1.1.x",  "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+// ============================================
+// User Management
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String // bcrypt hashed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  documents Document[]
+  sessions  Session[]
+  apiKeys   ApiKey[]
+
+  @@index([email])
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@map("sessions")
+}
+
+model ApiKey {
+  id        String    @id @default(cuid())
+  userId    String
+  key       String    @unique
+  name      String
+  isActive  Boolean   @default(true)
+  lastUsed  DateTime?
+  createdAt DateTime  @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([key])
+  @@map("api_keys")
+}
+
+// ============================================
+// Document Management
+// ============================================
+
+enum DocumentType {
+  INVOICE
+  RECEIPT
+  PAYSLIP
+  BANK_STATEMENT
+  TAX_FORM
+  CONTRACT
+  OTHER
+}
+
+enum DocumentStatus {
+  UPLOADING
+  PROCESSING
+  NEEDS_REVIEW
+  COMPLETED
+  FAILED
+  ARCHIVED
+}
+
+model Document {
+  id               String         @id @default(cuid())
+  userId           String
+  originalFilename String
+  mimeType         String
+  fileSize         Int
+  s3Key            String         @unique
+  s3Bucket         String
+  documentType     DocumentType?
+  status           DocumentStatus @default(PROCESSING)
+  confidence       Float?
+  parsedData       Json?
+  needsReview      Boolean        @default(false)
+  reviewedAt       DateTime?
+  completedAt      DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  // Relations
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  processingJobs ProcessingJob[]
+  auditLogs      AuditLog[]
+
+  @@index([userId])
+  @@index([userId, status])
+  @@index([status, createdAt])
+  @@index([createdAt])
+  @@index([s3Key])
+  @@map("documents")
+}
+
+// ============================================
+// Pipeline Management
+// ============================================
+
+enum PipelineStage {
+  UPLOAD
+  CLASSIFICATION
+  EXTRACTION
+  VALIDATION
+  CORRECTION
+  REVALIDATION // Re-validation after correction
+  FINALIZE
+}
+
+enum StageStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  FAILED
+  RETRYING
+}
+
+model ProcessingJob {
+  id           String        @id @default(cuid())
+  documentId   String
+  inngestJobId String        @unique
+  currentStage PipelineStage
+  stageStatus  StageStatus   @default(PENDING)
+  retryCount   Int           @default(0)
+  errorMessage String?
+  startedAt    DateTime      @default(now())
+  completedAt  DateTime?
+
+  // Relations
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([documentId])
+  @@index([inngestJobId])
+  @@map("processing_jobs")
+}
+
+model AuditLog {
+  id             String        @id @default(cuid())
+  documentId     String
+  stage          PipelineStage
+  llmProvider    String // "openai" | "anthropic" | "consensus"
+  llmModel       String // "gpt-4o" | "claude-3-5-sonnet" | "weighted-consensus"
+  promptTemplate String
+  promptUsed     String        @db.Text
+  rawResponse    String        @db.Text
+  extractedData  Json?
+  confidence     Float?
+  processingTime Int? // milliseconds
+  tokensUsed     Int?
+  cost           Float?
+
+  // Enhanced tracking for production observability
+  attemptId       String? // Inngest retry attempt ID for idempotency
+  inngestEventId  String? // Inngest event ID for tracing
+  agreementLevel  Float? // Multi-provider consensus agreement level (0-1)
+  providerWeights Json? // Provider weights used in weighted voting { "openai": 0.5, "anthropic": 0.5 }
+  sensitive       Boolean @default(false) // Flag for PII/sensitive content requiring redaction
+
+  createdAt DateTime @default(now())
+
+  // Relations
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, stage, attemptId]) // Prevent duplicate audit logs on retries
+  @@index([documentId])
+  @@index([stage])
+  @@index([createdAt])
+  @@index([inngestEventId])
+  @@map("audit_logs")
+}
+
+// ============================================
+// Prompt Management
+// ============================================
+
+enum PromptCategory {
+  CLASSIFICATION
+  EXTRACTION
+  VALIDATION
+  CORRECTION
+}
+
+model PromptTemplate {
+  id          String         @id @default(cuid())
+  name        String         @unique
+  category    PromptCategory
+  version     String
+  template    String         @db.Text
+  variables   Json // { "image": "base64", "schema": "json" }
+  description String?
+  isActive    Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([category])
+  @@index([name])
+  @@map("prompt_templates")
+}
