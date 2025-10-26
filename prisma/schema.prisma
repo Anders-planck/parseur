@@ -2,8 +2,9 @@
 // Learn more: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["darwin-arm64", "rhel-openssl-3.0.x"]
+  provider = "prisma-client-js"
+  output   = "./prisma/generated/client"
+  binaryTargets = ["native","rhel-openssl-3.0.x", "linux-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -49,13 +50,13 @@ model Session {
 }
 
 model ApiKey {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
-  key       String   @unique
+  key       String    @unique
   name      String
-  isActive  Boolean  @default(true)
+  isActive  Boolean   @default(true)
   lastUsed  DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -142,15 +143,15 @@ enum StageStatus {
 }
 
 model ProcessingJob {
-  id            String       @id @default(cuid())
-  documentId    String
-  inngestJobId  String       @unique
-  currentStage  PipelineStage
-  stageStatus   StageStatus  @default(PENDING)
-  retryCount    Int          @default(0)
-  errorMessage  String?
-  startedAt     DateTime     @default(now())
-  completedAt   DateTime?
+  id           String        @id @default(cuid())
+  documentId   String
+  inngestJobId String        @unique
+  currentStage PipelineStage
+  stageStatus  StageStatus   @default(PENDING)
+  retryCount   Int           @default(0)
+  errorMessage String?
+  startedAt    DateTime      @default(now())
+  completedAt  DateTime?
 
   // Relations
   document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
@@ -161,19 +162,19 @@ model ProcessingJob {
 }
 
 model AuditLog {
-  id              String        @id @default(cuid())
-  documentId      String
-  stage           PipelineStage
-  llmProvider     String // "openai" | "anthropic" | "consensus"
-  llmModel        String // "gpt-4o" | "claude-3-5-sonnet" | "weighted-consensus"
-  promptTemplate  String
-  promptUsed      String        @db.Text
-  rawResponse     String        @db.Text
-  extractedData   Json?
-  confidence      Float?
-  processingTime  Int? // milliseconds
-  tokensUsed      Int?
-  cost            Float?
+  id             String        @id @default(cuid())
+  documentId     String
+  stage          PipelineStage
+  llmProvider    String // "openai" | "anthropic" | "consensus"
+  llmModel       String // "gpt-4o" | "claude-3-5-sonnet" | "weighted-consensus"
+  promptTemplate String
+  promptUsed     String        @db.Text
+  rawResponse    String        @db.Text
+  extractedData  Json?
+  confidence     Float?
+  processingTime Int? // milliseconds
+  tokensUsed     Int?
+  cost           Float?
 
   // Enhanced tracking for production observability
   attemptId       String? // Inngest retry attempt ID for idempotency
@@ -182,7 +183,7 @@ model AuditLog {
   providerWeights Json? // Provider weights used in weighted voting { "openai": 0.5, "anthropic": 0.5 }
   sensitive       Boolean @default(false) // Flag for PII/sensitive content requiring redaction
 
-  createdAt       DateTime      @default(now())
+  createdAt DateTime @default(now())
 
   // Relations
   document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)

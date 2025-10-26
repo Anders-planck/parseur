@@ -133,6 +133,34 @@ export function RealTimeDashboardStats({ initialStats, translations }: Dashboard
     enabled: true,
   })
 
+  const cardsStatus = [
+    {
+      title: translations.totalDocuments,
+      value: stats.total,
+      icon: <FileText className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: translations.completed,
+      value: stats.completed,
+      icon: <CheckCircle className="h-4 w-4 text-green-500" />,
+    },
+    {
+      title: translations.processing,
+      value: stats.processing,
+      icon: <Upload className="h-4 w-4 text-blue-500" />,
+    },
+    {
+      title: translations.needsReview,
+      value: stats.needsReview,
+      icon: <AlertCircle className="h-4 w-4 text-orange-500" />,
+    },
+    {
+      title: translations.failed,
+      value: stats.failed,
+      icon: <AlertCircle className="h-4 w-4 text-red-500" />,
+    },
+  ]
+
   return (
     <>
       {/* Connection Status Indicator (hidden when connected) */}
@@ -148,54 +176,20 @@ export function RealTimeDashboardStats({ initialStats, translations }: Dashboard
       )}
 
       {/* Statistics Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
         {/* Total Documents */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{translations.totalDocuments}</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.total}</div>
-            <p className="text-xs text-muted-foreground">{translations.totalDescription}</p>
-          </CardContent>
-        </Card>
-
-        {/* Completed */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{translations.completed}</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.completed}</div>
-            <p className="text-xs text-muted-foreground">{translations.completedDescription}</p>
-          </CardContent>
-        </Card>
-
-        {/* Processing */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{translations.processing}</CardTitle>
-            <Upload className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.processing}</div>
-            <p className="text-xs text-muted-foreground">{translations.processingDescription}</p>
-          </CardContent>
-        </Card>
-
-        {/* Needs Review */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{translations.needsReview}</CardTitle>
-            <AlertCircle className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.needsReview}</div>
-            <p className="text-xs text-muted-foreground">{translations.needsReviewDescription}</p>
-          </CardContent>
-        </Card>
+        {cardsStatus.map((card) => (
+          <Card key={card.title}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
+              {card.icon}
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{card.value}</div>
+              <p className="text-xs text-muted-foreground">{translations.totalDescription}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </>
   )

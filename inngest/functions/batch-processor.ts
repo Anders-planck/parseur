@@ -16,7 +16,7 @@ import type { DocumentType, Prisma } from '@prisma/client'
  * Batch configuration
  */
 const BATCH_CONFIG = {
-  maxSize: 10, // Maximum documents per batch
+  maxSize: 5, // Maximum documents per batch
   timeout: '30s' as const, // Wait up to 30s to fill batch
   minSize: 3, // Minimum documents to trigger batch processing
 }
