@@ -10,10 +10,16 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts')
 const nextConfig: NextConfig = {
   /* config options here */
 
+  // Ensure Prisma engine binaries are included in deployment
+  outputFileTracingIncludes: {
+    '/api/**/*': ['./node_modules/.prisma/client/**/*'],
+    '/**': ['./node_modules/.prisma/client/**/*'],
+  },
+
   // Externalize pino packages to avoid worker thread bundling issues
   // This prevents "Cannot find module '/ROOT/node_modules/thread-stream/lib/worker.js'" errors
   // Note: In Next.js 16+, this is now `serverExternalPackages` instead of experimental
-  serverExternalPackages: ['pino', 'pino-pretty', 'thread-stream'],
+  serverExternalPackages: ['pino', 'pino-pretty', 'thread-stream', '@prisma/client', '@prisma/engines'],
 
   // Additional Webpack config to ensure pino is not bundled in server chunks
   webpack: (config, { isServer }) => {
